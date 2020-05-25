@@ -20,11 +20,12 @@
 #define endPointsMaxNum     (50)
 #define borderPointsMaxNum  (50)
 
-#define minFlagString       "Min Space:"
-#define startFlagString     "Start Teeth:"
-#define endFlagString       "End Teeth:"
-#define borderFlagString    "Area Polygon:"
-#define resFlagString       "Res.constrain:"
+#define minFlagString       ("Min Space")
+#define startFlagString     ("Start Teeth")
+#define endFlagString       ("End Teeth")
+#define borderFlagString    ("Area Polygon")
+#define resFlagString       ("Res.constrain")
+#define miniWidth           ("Min Width")
 
 typedef struct {
     double x;
@@ -52,11 +53,15 @@ typedef struct {
     unsigned char endPointsNum;
     unsigned char borderPointsNum;
 
-    int lineSpace;
+    float sheetRatio;
+    float minWidth;
+    float minSpace;
 
     borderPointsCoordinate borderPointsArray[borderPointsMaxNum];
     startPointsCoordinate startPointsArray[startPointsMaxNum];
     endPointsCoordinate endPointsArray[endPointsMaxNum];
 }coordinateData;
+
+extern coordinateData allData;
 
 #endif // TYPEDEF_H

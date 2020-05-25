@@ -22,16 +22,25 @@ void Form::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     QPen pen(Qt::black, 500, Qt::SolidLine, Qt::SquareCap, Qt::MiterJoin);
-//    QPainterPath paintPath;
 
     painter.setPen(pen);
     painter.scale(0.003, 0.003);    // must float
 
-    painter.drawLine(QPoint(10000, 10000), QPoint(200000, 200000));
+    int borderNum = allData.borderPointsNum;
 
-//    paintPath.moveTo(10000, 10000);
-//    paintPath.lineTo(100000, 100000);
+    for (int i = 0, j = 0, k= 0; i < borderNum; i++) {
+        ++k;
 
-//    painter.drawPath(paintPath);
+        if ((i+1) == borderNum)
+            k = 0;
+        painter.drawLine(QPoint(allData.borderPointsArray[j].x, allData.borderPointsArray[j].y),
+                         QPoint(allData.borderPointsArray[k].x, allData.borderPointsArray[k].y));
+        j++;
+
+    }
+
+
+    //painter.drawLine(QPoint(10000, 10000), QPoint(200000, 200000));
+
     qDebug() << "paintEvent";
 }

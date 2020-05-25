@@ -32,7 +32,7 @@ private:
     QFile *dataFile;
     QString fileName;
 
-    coordinateData allData;
+    //coordinateData allData;
 
     Form *form1;
 };

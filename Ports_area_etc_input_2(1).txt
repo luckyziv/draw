@@ -1,6 +1,6 @@
-Sheet Ratio：1.0
-Min Width：10
-Min Space：10
+Sheet Ratio:1.0
+Min Width:10
+Min Space:10
 
 Start Teeth:
 1. (73919.1,-167900.7) (74047.3,-167900.7)
