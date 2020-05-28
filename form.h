@@ -1,14 +1,12 @@
 #ifndef FORM_H
 #define FORM_H
 
-#include <QMainWindow>
-#include <QWidget>
-#include "typedef.h"
 #include "common.h"
-#include "myitem.h"
+#include <QMainWindow>
+//#include "myitem.h"
 
+class MyItem;
 
-class myItem;
 namespace Ui {
 class Form;
 }
@@ -35,7 +33,7 @@ private:
 
     QGraphicsScene *scene;
     QGraphicsView *view;
-    myItem item;
+//    MyItem item;
 
     QWidget* sceneWidget;
 

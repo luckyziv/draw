@@ -1,20 +1,6 @@
 #ifndef TYPEDEF_H
 #define TYPEDEF_H
 
-#include <QDebug>
-#include <QFileDialog>
-#include <QDebug>
-#include <QFile>
-#include <QPainter>
-#include <QByteArray>
-#include <QRegExp>
-#include <QStringList>
-#include <QPainter>
-#include <QPainterPath>
-#include <QPaintEvent>
-#include <QPen>
-#include <QPoint>
-#include <form.h>
 
 #define startPointsMaxNum   (50)
 #define endPointsMaxNum     (50)

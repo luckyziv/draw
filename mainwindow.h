@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "typedef.h"
+#include "common.h"
 
 class Form;
 

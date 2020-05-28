@@ -1,5 +1,8 @@
 #include "form.h"
 #include "ui_form.h"
+#include "myitem.h"
+
+class MyItem;
 
 Form::Form(QWidget *parent) :
     QMainWindow (parent),
@@ -8,6 +11,7 @@ Form::Form(QWidget *parent) :
     ui->setupUi(this);
     //painter = new QPainter(this);
     //painter->scale(10, 10);
+//    MyItem item;
     m_scale = 1;
     resize(1200,800);
     sceneWidget = new QWidget(this);
@@ -23,11 +27,11 @@ Form::Form(QWidget *parent) :
 //    scene->setSceneRect(0,0,800,600);
     view->setScene(scene);
 //    view->setSceneRect(0,0,800,600);
-
+    MyItem *item = new MyItem();    // must pointer
 //    m_bkPixmapItem = new QGraphicsPixmapItem();
 //    m_bkPixmapItem->setPixmap(QPixmap(":/new/prefix1/src/3.png").scaled(280,60,Qt::KeepAspectRatioByExpanding));
 //    scene->addItem(m_bkPixmapItem);
-    scene->addItem(&item);
+    scene->addItem(item);
 
     view->resize(800,800);
     view->scene()->setSceneRect(0,0,800,600);
@@ -43,11 +47,12 @@ Form::~Form()
 
 void Form::paintEvent(QPaintEvent *event)
 {
+#if 0
     QPainter painter(this);
     QPen pen(Qt::black, 500, Qt::SolidLine, Qt::SquareCap, Qt::MiterJoin);
 
     painter.setPen(pen);
-    painter.scale(0.003, 0.003);    // must float
+    painter.scale(0.01, 0.01);    // must float
 
     int borderNum = allData.borderPointsNum;
 
@@ -56,6 +61,8 @@ void Form::paintEvent(QPaintEvent *event)
 
         if ((i+1) == borderNum)
             k = 0;
+        qDebug() << allData.borderPointsArray[j].x << allData.borderPointsArray[j].y;
+        qDebug() << allData.borderPointsArray[k].x << allData.borderPointsArray[k].y;
         painter.drawLine(QPoint(allData.borderPointsArray[j].x, allData.borderPointsArray[j].y),
                          QPoint(allData.borderPointsArray[k].x, allData.borderPointsArray[k].y));
         j++;
@@ -66,6 +73,7 @@ void Form::paintEvent(QPaintEvent *event)
     //painter.drawLine(QPoint(10000, 10000), QPoint(200000, 200000));
 
     qDebug() << "paintEvent";
+#endif
 }
 
 void Form::wheelEvent(QWheelEvent *event)
@@ -73,15 +81,15 @@ void Form::wheelEvent(QWheelEvent *event)
     view->scale(1/m_scale, 1/m_scale);
     if(event->delta() > 0){
         if(m_scale < 10){
-            m_scale += 0.1;
+            m_scale += 0.05;
         }else{
             m_scale = 10;
         }
     }else{
         if(m_scale > 0.1){
-            m_scale -= 0.1;
+            m_scale -= 0.05;
         }else{
-            m_scale = 0.1;
+            m_scale = 0.05;
         }
     }
     view->scale(m_scale, m_scale);
