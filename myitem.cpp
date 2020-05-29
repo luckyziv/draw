@@ -38,8 +38,9 @@ index MyItem::get_inflection_point(index p0, index p1, index p2, int instance)
     index pf = {pfc*pp2.x, pfc*pp2.y};
 //    qDebug() << "pf: " << pf.x << pf.y;
 
-    index pq = {pe.x + pf.x - p0.x, pe.y + pf.y - p0.y};
-//    qDebug() << "pq: " << pq.x << pq.y;
+    //index pq = {pe.x + pf.x - p0.x, pe.y + pf.y - p0.y};
+    index pq = {pe.x + pf.x, pe.y + pf.y};
+    qDebug() << "pq: " << pq.x << pq.y;
 
     return pq;
 }
@@ -86,7 +87,7 @@ void MyItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
     // step4. draw inflection points and lines
     int temp = allData.startPointsArray[0].pointStartX;
-    int temp1 = 0;
+    int temp1 = 0, idx = 0;
 //    qDebug() << "start point: " << temp;
 #if 1
     index p0Index, pSIndex, pEIndex;
@@ -103,6 +104,7 @@ void MyItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
                 pEIndex.x = allData.borderPointsArray[i-1].x;
                 pEIndex.y = allData.borderPointsArray[i-1].y;
+                idx = i;
 //                qDebug() << "base poing: " << i;
             } else {
                 p0Index.x = allData.borderPointsArray[i-1].x;
@@ -113,6 +115,7 @@ void MyItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
                 pEIndex.x = allData.borderPointsArray[i-2].x;
                 pEIndex.y = allData.borderPointsArray[i-2].y;
+                idx = i;
 //                qDebug() << "base poing: " << i-1;
             }
             break;
@@ -122,9 +125,25 @@ void MyItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 //    qDebug() << "border p0 pS pE" << p0Index.x << p0Index.y << pSIndex.x << pSIndex.y << pEIndex.x << pEIndex.y;
 
     index p3 = this->get_inflection_point(p0Index, pSIndex, pEIndex,50);
-//    qDebug() << "inflection points:" << p3.x << p3.y;
+    qDebug() << "1 p0" << p0Index.x << p0Index.y;
+    qDebug() << "1 inflection points:" << p3.x << p3.y;
     painter->drawLine(QPoint(-p3.x, allData.startPointsArray[0].pointStartY),
                       QPoint(-p3.x, -p3.y));
+
+    --idx;
+    p0Index.x = allData.borderPointsArray[idx].x;
+    p0Index.y = allData.borderPointsArray[idx].y;
+
+    pSIndex.x = allData.borderPointsArray[idx+1].x;
+    pSIndex.y = allData.borderPointsArray[idx+1].y;
+
+    pEIndex.x = allData.borderPointsArray[idx-1].x;
+    pEIndex.y = allData.borderPointsArray[idx-1].y;
+    p3 = this->get_inflection_point(p0Index, pSIndex, pEIndex,50);
+    qDebug() << "2 p0" << p0Index.x << p0Index.y;
+    qDebug() << "2 inflection points" << p3.x << p3.y;
+//    painter->drawLine(QPoint(-p3.x, allData.startPointsArray[0].pointStartY),
+//                      QPoint(-p3.x, -p3.y));
 #endif
 #endif
 
