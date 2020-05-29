@@ -16,6 +16,11 @@
 typedef struct {
     double x;
     double y;
+}index;
+
+typedef struct {
+    double x;
+    double y;
 }borderPointsCoordinate;
 
 typedef struct {
@@ -24,15 +29,7 @@ typedef struct {
 
     double pointEndX;
     double pointEndY;
-}startPointsCoordinate;
-
-typedef struct {
-    double pointStartX;
-    double pointStartY;
-
-    double pointEndX;
-    double pointEndY;
-}endPointsCoordinate;
+}PointsCoordinate;
 
 typedef struct {
     unsigned char startPointsNum;
@@ -44,8 +41,8 @@ typedef struct {
     float minSpace;
 
     borderPointsCoordinate borderPointsArray[borderPointsMaxNum];
-    startPointsCoordinate startPointsArray[startPointsMaxNum];
-    endPointsCoordinate endPointsArray[endPointsMaxNum];
+    PointsCoordinate startPointsArray[startPointsMaxNum];
+    PointsCoordinate endPointsArray[endPointsMaxNum];
 }coordinateData;
 
 extern coordinateData allData;

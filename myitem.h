@@ -5,7 +5,9 @@
 
 class MyItem : public QGraphicsItem
 {
+public:
 
+    index get_inflection_point(index p0, index p1, index p2, int instance);
 public:
     MyItem();
     QRectF boundingRect() const;

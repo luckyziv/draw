@@ -212,7 +212,7 @@ void MainWindow::on_BT_selectFile_clicked()
             // step4. read min space data
             str0 = miniWidth;
             idxStart = allString.indexOf(str0);
-            miniWidthStr = allString.mid(idxStart + str0.length(), 10);
+            miniWidthStr = allString.mid(idxStart + str0.length(), 50);
 
             QRegExp reg5("\\d+\\.?\\d+");
             QString minWidthTmp = "";
