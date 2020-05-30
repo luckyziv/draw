@@ -37,13 +37,14 @@ index MyItem::get_inflection_point(index p0, index p1, index p2, int instance)
     double pfc = pfv / pp2v;
     index pf = {pfc*pp2.x, pfc*pp2.y};
 //    qDebug() << "pf: " << pf.x << pf.y;
-
-    //index pq = {pe.x + pf.x - p0.x, pe.y + pf.y - p0.y};
-    index pq = {pe.x + pf.x, pe.y + pf.y};
-    qDebug() << "pq: " << pq.x << pq.y;
+    qDebug() << "before add :" <<pe.x + pf.x << pe.y + pf.y;
+    index pq = {pe.x + pf.x - p0.x, pe.y + pf.y - p0.y};
+//    index pq = {pe.x + pf.x, pe.y + pf.y};
+//    qDebug() << "pq: " << pq.x << pq.y;
 
     return pq;
 }
+
 
 void MyItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -53,7 +54,6 @@ void MyItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     painter->scale(0.05, 0.05);
     painter->setBrush(Qt::red);
 
-#if 1
     // step1. draw border points
     int borderNum = allData.borderPointsNum;
 
@@ -89,8 +89,8 @@ void MyItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     int temp = allData.startPointsArray[0].pointStartX;
     int temp1 = 0, idx = 0;
 //    qDebug() << "start point: " << temp;
-#if 1
     index p0Index, pSIndex, pEIndex;
+    borderNum_g = 0;
     for (int i = 0; i < allData.borderPointsNum; i++) {
         temp1 = allData.borderPointsArray[i].x;
 //        qDebug() << "for: " << temp1;
@@ -104,8 +104,10 @@ void MyItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
                 pEIndex.x = allData.borderPointsArray[i-1].x;
                 pEIndex.y = allData.borderPointsArray[i-1].y;
+//                idx = i + 2;
                 idx = i;
-//                qDebug() << "base poing: " << i;
+                borderNum_g = i + 2;
+                qDebug() << "base poing: " << i;
             } else {
                 p0Index.x = allData.borderPointsArray[i-1].x;
                 p0Index.y = allData.borderPointsArray[i-1].y;
@@ -116,19 +118,22 @@ void MyItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
                 pEIndex.x = allData.borderPointsArray[i-2].x;
                 pEIndex.y = allData.borderPointsArray[i-2].y;
                 idx = i;
+                borderNum_g = i + 1;
 //                qDebug() << "base poing: " << i-1;
             }
             break;
         }
     }
-
+    this->paint_line(painter);
+#if 0
 //    qDebug() << "border p0 pS pE" << p0Index.x << p0Index.y << pSIndex.x << pSIndex.y << pEIndex.x << pEIndex.y;
 
     index p3 = this->get_inflection_point(p0Index, pSIndex, pEIndex,50);
-    qDebug() << "1 p0" << p0Index.x << p0Index.y;
+    qDebug() << "1 rural points" << p0Index.x << p0Index.y;
     qDebug() << "1 inflection points:" << p3.x << p3.y;
     painter->drawLine(QPoint(-p3.x, allData.startPointsArray[0].pointStartY),
                       QPoint(-p3.x, -p3.y));
+    index last = {-p3.x, -p3.y};
 
     --idx;
     p0Index.x = allData.borderPointsArray[idx].x;
@@ -140,12 +145,84 @@ void MyItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     pEIndex.x = allData.borderPointsArray[idx-1].x;
     pEIndex.y = allData.borderPointsArray[idx-1].y;
     p3 = this->get_inflection_point(p0Index, pSIndex, pEIndex,50);
-    qDebug() << "2 p0" << p0Index.x << p0Index.y;
+    qDebug() << "2 rural points" << p0Index.x << p0Index.y;
     qDebug() << "2 inflection points" << p3.x << p3.y;
-//    painter->drawLine(QPoint(-p3.x, allData.startPointsArray[0].pointStartY),
-//                      QPoint(-p3.x, -p3.y));
-#endif
-#endif
+    painter->drawLine(QPoint(last.x, last.y),
+                      QPoint(-p3.x, -p3.y));
 
+    for(int i=0; i<allData.startPointsNum; i++) {
+
+
+    }
+#endif
 }
 
+void MyItem::paint_line(QPainter *painter)
+{
+    index pS, p0, pE, pb, pq;
+
+    index borderRecord[borderNum_g];
+    qDebug() << "borderNum_g: " << borderNum_g;
+    for(int i = 0; i < borderNum_g; i++) {
+        borderRecord[i].x = allData.borderPointsArray[i].x;
+        borderRecord[i].y = allData.borderPointsArray[i].y;
+        qDebug() << "borderRecord data:" << borderRecord[i].x << borderRecord[i].y;
+    }
+
+    index startRecord[allData.startPointsNum];
+    for(int i = 0; i < allData.startPointsNum; i++) {
+        startRecord[i].x = allData.startPointsArray[i].pointStartX;
+        startRecord[i].y = allData.startPointsArray[i].pointStartY;
+    }
+
+    index endRecord[allData.endPointsNum];
+    for(int i = 0; i < allData.endPointsNum; i++) {
+        endRecord[i].x = allData.endPointsArray[i].pointStartX;
+        endRecord[i].y = allData.endPointsArray[i].pointStartY;
+    }
+
+    int k = 0;
+    for (int i = 0; i < allData.startPointsNum; i++) {
+        if ( i == 0) {
+            pb.x = startRecord[i].x + 50;
+            pb.y = startRecord[i].y;
+        } else {
+            pb.x = startRecord[i].x;
+            pb.y = startRecord[i].y;
+        }
+        ++k;
+        for (int i = (borderNum_g - 2), j = 0; i >= 0; i--) {
+            j = i;
+            p0.x = borderRecord[j].x;
+            p0.y = borderRecord[j].y;
+            pS.x = borderRecord[j+1].x;
+            pS.y = borderRecord[j+1].y;
+            pE.x = borderRecord[j-1].x;
+            pE.y = borderRecord[j-1].y;
+
+            index p3 = this->get_inflection_point(p0, pS, pE,50);
+
+
+            if (i == 0) {
+                painter->drawLine(QPoint(pb.x, pb.y),
+                                  QPoint(endRecord[k-1].x, endRecord[k-1].y));
+
+            } else {
+                painter->drawLine(QPoint(pb.x, pb.y),
+                                  QPoint(-p3.x, -p3.y));
+            }
+
+            if (j == (borderNum_g - 2)) {
+                borderRecord[j+1].x = pb.x;
+                borderRecord[j+1].y = pb.y;
+                borderRecord[j].x = -p3.x;
+                borderRecord[j].y = -p3.y;
+            } else {
+                borderRecord[j].x = -p3.x;
+                borderRecord[j].y = -p3.y;
+            }
+            pb.x = -p3.x;
+            pb.y = -p3.y;
+        }
+    }
+}
