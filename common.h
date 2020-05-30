@@ -1,6 +1,8 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+// 所有头文件基本都在这里包
+
 #include <QGraphicsItem>
 #include <QGraphicsView>
 #include <QDebug>

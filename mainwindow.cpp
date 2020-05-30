@@ -31,12 +31,11 @@ MainWindow::~MainWindow()
 void MainWindow::paintEvent(QPaintEvent *event)
 {
 
-#if 1
+#if 0
     QPainter painter(this);
     QPainterPath paintPath;
 
     paintPath.moveTo(50, 100);
-
     paintPath.lineTo(100, 150);
 
     painter.drawPath(paintPath);
@@ -47,6 +46,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
 void MainWindow::on_BT_selectFile_clicked()
 {
     if (btText.isEmpty()) {
+        // 文件选择对话框
         fileName = QFileDialog::getOpenFileName(this,
                                                 tr("Select File Dialog"),
                                                 "C:");

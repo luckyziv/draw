@@ -204,6 +204,7 @@ void MyItem::paint_line(QPainter *painter)
 
 
             if (i == 0) {
+                // connect end points
                 painter->drawLine(QPoint(pb.x, pb.y),
                                   QPoint(endRecord[k-1].x, endRecord[k-1].y));
 
